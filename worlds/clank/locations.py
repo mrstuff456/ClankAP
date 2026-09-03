@@ -9,17 +9,14 @@ from . import items
 if TYPE_CHECKING:
     from .world import ClankWorld
 
+# init sqlite db
+import sqlite3
+con = sqlite3.connect("ClankDatabase.db")
+cur = con.cursor()
 
-# IDs for each item
-LOCATION_NAME_TO_ID = {
-    "Artifact Extraction: Bracelet": 1,
-    "Artifact Extraction: Anhk": 2,
-    "Artifact Extraction: Urn": 3,
-    "Artifact Extraction: Golden Banana": 4,
-    "Artifact Extraction: Shield": 5,
-    "Artifact Extraction: Chestplate": 6,
-    "Artifact Extraction: Golden Treasure": 7,
-}
+
+# Id dictionary
+LOCATION_NAME_TO_ID = {}
 
 
 # Each Location instance must correctly report the "game" it belongs to.
@@ -34,11 +31,23 @@ def get_location_names_with_ids(location_names: list[str]) -> dict[str, int | No
 
 
 def create_all_locations(world: ClankWorld) -> None:
-    create_regular_locations(world)
-    create_events(world)
+    # get all the data from the database
+    cur.execute("""
+        SELECT l.ID, l.Name, lt.Name FROM locations l
+        INNER JOIN locationType lt WHERE lt.ID = l.TypeID
+        """)
+    locationData = cur.fetchall()
+
+    # add all the data to the location name dictionary
+    for i in locationData:
+        LOCATION_NAME_TO_ID[i[1]] = i[0]
 
 
-def create_regular_locations(world: ClankWorld) -> None:
+    create_regular_locations(world, locationData)
+    create_events(world, locationData)
+
+
+def create_regular_locations(world: ClankWorld, locationData) -> None:
     # put all locations into regions
 
     # grab all the regions as in regions.py
@@ -56,5 +65,5 @@ def create_regular_locations(world: ClankWorld) -> None:
 
 
 
-def create_events(world: ClankWorld) -> None:
+def create_events(world: ClankWorld, locationData) -> None:
     pass
