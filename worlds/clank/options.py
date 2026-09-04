@@ -1,38 +1,191 @@
 from dataclasses import dataclass
+from worlds.Autoworld import WebWorld
 
 from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle
+from . import Options
 
 
-class TestToggle(Toggle):
+# WOOOO DEATHLINK YAYAYAYAYA
+class DeathLink(Toggle):
     """
-    This is a test toggle
+    Because who doesnt love restarting runs
+    A death in Clank! is losing all of your health
+    When you receive a death, end your current run
+    Default: False
     """
-    display_name = "Test Toggle"
 
 
-class TestRange(Range):
+# Artifact Options
+class Artifacts(Toggle):
     """
-    this is a test range    
+    Shuffle Artifacts to be unlocked into the multiworld
+    (Bracelet and Anhk are not shuffled and used as starting Artifacts (for now))
+    Default: True
     """
-    display_name = "Test Range"
-    range_start = 0
+    display_name = "Artifacts"
+
+    default = True
+
+
+# Monkey idol options
+class MonkeyIdols(Toggle):
+    """
+    Wether Monkey Idols are shuffled into the Multiworld.
+    Default: True
+    """
+    display_name = "Monkey Idols"
+
+    default = True
+
+
+class MonkeyIdolItemBehaviour(Choice):
+    """
+    Controls the Behaviour of how unlock checks are generated:
+    - Individual (Reccomended): Unlocks all idols of a type (See, Speak, Hear).
+    - AllIdols: One check which unlocks all idols at once.
+    - PerBoardIndividual: Each Idol has its own check (See, Speak, Hear for each board).
+    - PerBoardAll: Each board has one check which unlocks it's respective Idols.
+    Default: Individual
+    """
+    display_name = "Idol Item Behaviour"
+
+    option_Individual = 0
+    option_AllIdols = 1
+    option_PerBoardIndividual = 2
+    option_PerBoardAll = 3
+    default = 0
+
+
+class MonkeyIdolLocationBehaviour(Toggle):
+    """
+    If True, Monkey idol collection checks are made for each board.
+    If False, checks are cumulative for all boards.
+    Default: True (Reccomended)
+    """
+    display_name = "Idol Checks Per Board"
+
+    default = True
+
+
+# Dungeon row options
+class DungeonRow(Toggle):
+    """
+    Wether cards in the dungeon row are shuffled into the multiworld.
+    - Don't disable this please you'll just kill 90% of the archipelago
+    - Abandon all hope ye who enter here and such
+    - Who am I to stop you though if you wanna be insane go ahead
+    Default: True (as it should be)
+    """
+    display_name = "Dungeon Row"
+
+    default = True
+
+
+class RowShufflingStyle(Choice):
+    """
+    The style in which dungeon row cards are shuffled into the multiworld:
+    - Packs (Reccomended): Cards are made into prebuilt "packs", each check unlocks a set of cards.
+    - SmallPacks: Tighter groups for more checks.
+    - RandomPacks: Like packs, but instead the card packs are randomly made on generation.
+    - ProgressivePacks: cards are grouped by power, and each progressive check unlocks the next more powerful pack.
+    - All: Each individual card must be unlocked via a check, not for the feint of heart!
+    Default: Packs
+    Requires DungeonRow to be True
+    """
+    display_name = "Row Shuffling Style"
+
+    option_Packs = 0
+    option_SmallPacks = 1
+    option_RandomPacks = 2
+    option_ProgressivePacks = 3
+    option_All = 4
+    default = 0
+
+
+class RowSanity(Choice):
+    """
+    Checks for buying cards:
+    - None: Disables RowSanity.
+    - Gems: Each unique Gem card purchase is also a check.
+    - All: Every card is a check (Reccomended for RowShufflingStyle = All).
+    Default: Gems
+    """
+    display_name = "RowSanity"
+
+    option_None = 0
+    option_Gems = 1
+    option_All = 2
+    default = 1
+
+# Bonus dungeon row options
+class BonusRow(Toggle):
+    """
+    Weather locations are made for an extra shop that skill can be spent on.
+    Please dont turn this off unless you have a REALLY good reason, this game needs locations </3
+    Default: True
+    """
+    display_name = "Bonus Row"
+
+    default = True
+
+
+class BonusRowCards(Range):
+    """
+    The amount of cards you want to have in the Bonus Row
+    - A majority of locations come from here, generally please do not decrease this number
+    """
+    display_name = "Bonus Row Cards"
+
+    range_start = 30
     range_end = 100
     default = 50
 
 
-class TestChoice(Choice):
-    """
-    this is a test choice
-    """
-    display_name = "Test Choice"
+# # Expansion options
+# class MummysCurse(Toggle):
+#     """
+#     Wether to include the Mummy's Curse DLC content:
+#     - This includes both boards and all the extras included in the expansion
+#     Default: False
+#     """
+#     display_name = "Mummy's Curse"
 
-    option_one = 0
-    option_two = 1
-    option_three = 2
+#     default = False
+
 
 
 @dataclass
 class ClankOptions(PerGameCommonOptions):
-    test_toggle: TestToggle
-    test_range: TestRange
-    test_choice: TestChoice
+
+    # deathlink
+    death_link: DeathLink
+
+    # artifacts
+    artifacts: Artifacts
+
+    # monkey idol options
+    monkey_idols: MonkeyIdols
+    monkey_idol_item_behaviour: MonkeyIdolItemBehaviour
+    monkey_idol_location_behaviour: MonkeyIdolLocationBehaviour
+
+    # dungeon row options
+    dungeon_row: DungeonRow
+    row_shuffling_style: RowShufflingStyle
+
+
+class ClankWorldWeb(WebWorld):
+    option_groups = [
+        OptionGroup("Idols", [
+            MonkeyIdols,
+            MonkeyIdolItemBehaviour,
+            MonkeyIdolLocationBehaviour
+        ]),
+        OptionGroup("Dungeon Row", [
+            DungeonRow,
+            RowShufflingStyle,
+            RowSanity,
+        ]),
+        # OptionGroup("Expansions", [
+        #     MummysCurse,
+        # ]),
+    ]
