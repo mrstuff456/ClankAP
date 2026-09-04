@@ -34,7 +34,7 @@ def create_all_locations(world: ClankWorld) -> None:
     # get all the data from the database
     cur.execute("""
         SELECT l.ID, l.Name, lt.Name FROM locations l
-        INNER JOIN locationType lt WHERE lt.ID = l.TypeID
+        INNER JOIN locationType lt ON lt.ID = l.TypeID
         """)
     locationData = cur.fetchall()
 
@@ -52,6 +52,8 @@ def create_regular_locations(world: ClankWorld, locationData) -> None:
 
     # grab all the regions as in regions.py
     overall_region = world.get_region("Overall Region")
+    base_board = world.get_region("Base Front")
+    advanced_board = world.get_region("Base Back")
 
 
     # assign locations to regions
