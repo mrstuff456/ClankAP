@@ -25,7 +25,7 @@ def set_all_location_rules(world: ClankWorld) -> None:
     # set the location specific rules
     
     # artifacts
-    world.set_rule(world.get_location("Artifact Extraction: Anhk"), Has("Artifact Unlock: Anhk"))
+    world.set_rule(world.get_location("Artifact Extraction: Ankh"), Has("Artifact Unlock: Ankh"))
     world.set_rule(world.get_location("Artifact Extraction: Urn"), Has("Artifact Unlock: Urn"))
     world.set_rule(world.get_location("Artifact Extraction: Golden Banana"), Has("Artifact Unlock: Golden Banana"))
     world.set_rule(world.get_location("Artifact Extraction: Shield"), Has("Artifact Unlock: Shield"))
@@ -34,6 +34,6 @@ def set_all_location_rules(world: ClankWorld) -> None:
 
 def set_completion_condition(world: ClankWorld) -> None:
     world.set_completion_rule(HasAll(
-        "Artifact Extraction: Anhk", "Artifact Extraction: Urn", "Artifact Extraction: Golden Banana", 
+        "Artifact Extraction: Ankh", "Artifact Extraction: Urn", "Artifact Extraction: Golden Banana", 
         "Artifact Extraction: Shield", "Artifact Extraction: Chestplate", "Artifact Extraction: Golden Treasure"
         ))

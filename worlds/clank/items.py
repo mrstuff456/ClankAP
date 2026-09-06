@@ -71,8 +71,9 @@ def create_all_items(world: ClankWorld) -> None:
     # Artifact Unlocks:
     if world.multiworld.options.artifacts:
         artifactNames = get_db_data_by_type("artifact_unlock")
+        startingArtifactDict = world.multiworld.options.starting_artifacts.value
         for i in artifactNames:
-            if i not in ["Artifact Unlock: Bracelet", "Artifact Unlock: Anhk"]:
+            if i not in ["Artifact Unlock: " + x for x, y in startingArtifactDict.items() if y == 1]:
                 ITEMS_TO_ADD.append(i)
 
 

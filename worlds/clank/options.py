@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from worlds.Autoworld import WebWorld
 
-from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle
+from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle, OptionDict
 from . import Options
 
 
@@ -19,12 +19,29 @@ class DeathLink(Toggle):
 class Artifacts(Toggle):
     """
     Shuffle Artifacts to be unlocked into the multiworld
-    (Bracelet and Anhk are not shuffled and used as starting Artifacts (for now))
+    (Bracelet and Ankh are not shuffled and used as starting Artifacts (for now))
     Default: True
     """
     display_name = "Artifacts"
 
     default = True
+
+
+class StartingArtifacts(OptionDict):
+    """
+    What artifacts are given to you at the start, the rest are shuffled into the multiworld
+    - 0 to disable, 1 to enable:
+    """
+    display_name = "Starting Artifacts"
+    default = {
+        "Bracelet": 1,
+        "Ankh": 1,
+        "Urn": 0,
+        "GoldenBanana": 0,
+        "Shield": 0,
+        "Chestplate": 0,
+        "GoldenTreasure": 0,
+    }
 
 
 # Monkey idol options
@@ -102,9 +119,21 @@ class RowShufflingStyle(Choice):
     default = 0
 
 
+class PackSize(Range):
+    """
+    If using the RandomPacks or ProgressivePacks option, decides how big the size of the packs are.
+    Default: 4
+    """
+    display_name = "Pack Size"
+
+    range_start = 2
+    range_end = 70
+    default = 4
+
+
 class RowSanity(Choice):
     """
-    Checks for buying cards:
+    Locations for buying cards:
     - None: Disables RowSanity.
     - Gems: Each unique Gem card purchase is also a check.
     - All: Every card is a check (Reccomended for RowShufflingStyle = All).
@@ -141,6 +170,20 @@ class BonusRowCards(Range):
     default = 50
 
 
+class BonusRowPrices(OptionDict):
+    """
+    The cost of Bonus Row items depending on their type:
+    """
+    display_name = "Bonus Row Prices"
+    default = {
+        "progression": 5,
+        "useful": 4,
+        "filler": 3,
+        "trap": 2,
+        "junk": 2,
+    }
+
+
 # # Expansion options
 # class MummysCurse(Toggle):
 #     """
@@ -162,6 +205,7 @@ class ClankOptions(PerGameCommonOptions):
 
     # artifacts
     artifacts: Artifacts
+    starting_artifacts: Artifacts
 
     # monkey idol options
     monkey_idols: MonkeyIdols
@@ -171,6 +215,10 @@ class ClankOptions(PerGameCommonOptions):
     # dungeon row options
     dungeon_row: DungeonRow
     row_shuffling_style: RowShufflingStyle
+    rowsanity: RowSanity
+    pack_size: PackSize
+    bonus_row: BonusRow
+    bonus_row_cards: BonusRowCards
 
 
 class ClankWorldWeb(WebWorld):
@@ -178,12 +226,15 @@ class ClankWorldWeb(WebWorld):
         OptionGroup("Idols", [
             MonkeyIdols,
             MonkeyIdolItemBehaviour,
-            MonkeyIdolLocationBehaviour
+            MonkeyIdolLocationBehaviour,
         ]),
         OptionGroup("Dungeon Row", [
             DungeonRow,
             RowShufflingStyle,
+            PackSize,
             RowSanity,
+            BonusRow,
+            BonusRowCards,
         ]),
         # OptionGroup("Expansions", [
         #     MummysCurse,
