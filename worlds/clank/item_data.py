@@ -10,6 +10,9 @@ ITEM_NAME_TO_ID = {
     "Artifact Unlock: Chestplate": 6,
     "Artifact Unlock: Golden Treasure": 7,
 
+    # TEMP FILLER
+    "filler": 9,
+
     # Pack Unlocks (Normal) 11-40
     "Dungeon Row: Late-game Pack 1": 11,
     "Dungeon Row: Late-game Pack 2": 12,
