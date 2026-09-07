@@ -205,7 +205,7 @@ class ClankOptions(PerGameCommonOptions):
 
     # artifacts
     artifacts: Artifacts
-    starting_artifacts: Artifacts
+    starting_artifacts: StartingArtifacts
 
     # monkey idol options
     monkey_idols: MonkeyIdols
@@ -217,12 +217,19 @@ class ClankOptions(PerGameCommonOptions):
     row_shuffling_style: RowShufflingStyle
     rowsanity: RowSanity
     pack_size: PackSize
+
+    # bonus row
     bonus_row: BonusRow
     bonus_row_cards: BonusRowCards
+    bonus_row_prices: BonusRowPrices
 
 
 class ClankWorldWeb(WebWorld):
     option_groups = [
+        OptionGroup("Artifacts", [
+            Artifacts,
+            StartingArtifacts,
+        ]),
         OptionGroup("Idols", [
             MonkeyIdols,
             MonkeyIdolItemBehaviour,
@@ -233,8 +240,11 @@ class ClankWorldWeb(WebWorld):
             RowShufflingStyle,
             PackSize,
             RowSanity,
+        ]),
+        OptionGroup("Bonus Row", [
             BonusRow,
             BonusRowCards,
+            BonusRowPrices,
         ]),
         # OptionGroup("Expansions", [
         #     MummysCurse,
