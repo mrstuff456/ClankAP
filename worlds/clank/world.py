@@ -5,7 +5,7 @@ from typing import Any
 from worlds.AutoWorld import World
 
 # Imports of your world's files must be relative.
-from . import items, locations, regions, rules, web_world
+from . import items, locations, regions, rules, web_world, components
 from . import options as clank_options  # rename due to a name conflict with World.options
 
 

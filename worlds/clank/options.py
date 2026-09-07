@@ -37,10 +37,10 @@ class StartingArtifacts(OptionDict):
         "Bracelet": 1,
         "Ankh": 1,
         "Urn": 0,
-        "GoldenBanana": 0,
+        "Golden Banana": 0,
         "Shield": 0,
         "Chestplate": 0,
-        "GoldenTreasure": 0,
+        "Golden Treasure": 0,
     }
 
 
