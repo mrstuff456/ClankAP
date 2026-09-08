@@ -1,8 +1,6 @@
 from dataclasses import dataclass
-from worlds.Autoworld import WebWorld
 
 from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle, OptionDict
-from . import Options
 
 
 # WOOOO DEATHLINK YAYAYAYAYA
@@ -224,29 +222,25 @@ class ClankOptions(PerGameCommonOptions):
     bonus_row_prices: BonusRowPrices
 
 
-class ClankWorldWeb(WebWorld):
-    option_groups = [
-        OptionGroup("Artifacts", [
-            Artifacts,
-            StartingArtifacts,
-        ]),
-        OptionGroup("Idols", [
-            MonkeyIdols,
-            MonkeyIdolItemBehaviour,
-            MonkeyIdolLocationBehaviour,
-        ]),
-        OptionGroup("Dungeon Row", [
-            DungeonRow,
-            RowShufflingStyle,
-            PackSize,
-            RowSanity,
-        ]),
-        OptionGroup("Bonus Row", [
-            BonusRow,
-            BonusRowCards,
-            BonusRowPrices,
-        ]),
-        # OptionGroup("Expansions", [
-        #     MummysCurse,
-        # ]),
-    ]
+option_groups = [
+    OptionGroup("Artifacts", [
+        Artifacts,
+        StartingArtifacts,
+    ]),
+    OptionGroup("Idols", [
+        MonkeyIdols,
+        MonkeyIdolItemBehaviour,
+        MonkeyIdolLocationBehaviour,
+    ]),
+    OptionGroup("Dungeon Row", [
+        DungeonRow,
+        RowShufflingStyle,
+        PackSize,
+        RowSanity,
+    ]),
+    OptionGroup("Bonus Row", [
+        BonusRow,
+        BonusRowCards,
+        BonusRowPrices,
+    ]),
+]

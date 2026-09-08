@@ -25,15 +25,24 @@ def set_all_location_rules(world: ClankWorld) -> None:
     # set the location specific rules
     
     # artifacts
-    world.set_rule(world.get_location("Artifact Extraction: Ankh"), Has("Artifact Unlock: Ankh"))
-    world.set_rule(world.get_location("Artifact Extraction: Urn"), Has("Artifact Unlock: Urn"))
-    world.set_rule(world.get_location("Artifact Extraction: Golden Banana"), Has("Artifact Unlock: Golden Banana"))
-    world.set_rule(world.get_location("Artifact Extraction: Shield"), Has("Artifact Unlock: Shield"))
-    world.set_rule(world.get_location("Artifact Extraction: Chestplate"), Has("Artifact Unlock: Chestplate"))
-    world.set_rule(world.get_location("Artifact Extraction: Golden Treasure"), Has("Artifact Unlock: Golden Treasure"))
+    # get all starting artifacts
+    options_starting_artifacts = world.options.starting_artifacts.value
+    non_starting_artifacts = []
+    for key, option_value in options_starting_artifacts.items():
+        if option_value != 1:
+            non_starting_artifacts.append(key)
+    # add rules for all non-starting artifacts
+    for i in non_starting_artifacts:
+        world.set_rule(world.get_location(f"Artifact Extraction: {i}"), Has(f"Artifact Unlock: {i}"))
+        print(i)
+    print(non_starting_artifacts)
 
 def set_completion_condition(world: ClankWorld) -> None:
-    world.set_completion_rule(HasAll(
-        "Artifact Extraction: Ankh", "Artifact Extraction: Urn", "Artifact Extraction: Golden Banana", 
-        "Artifact Extraction: Shield", "Artifact Extraction: Chestplate", "Artifact Extraction: Golden Treasure"
-        ))
+        # get all starting artifacts
+    options_starting_artifacts = world.options.starting_artifacts.value
+    non_starting_artifacts = []
+    for key, option_value in options_starting_artifacts.items():
+        if option_value != 1:
+            non_starting_artifacts.append(f"Artifact Unlock: {key}")
+    # add completion rule
+    world.set_completion_rule(HasAll(*non_starting_artifacts))

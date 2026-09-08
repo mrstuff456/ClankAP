@@ -38,8 +38,9 @@ def create_all_items(world: ClankWorld) -> None:
     # obtain starting artifacts
     options_starting_artifacts = world.options.starting_artifacts.value
     starting_artifacts = []
-    for i in options_starting_artifacts:
-        starting_artifacts.append(f"Artifact Unlock: {i}")
+    for key, option_value in options_starting_artifacts.items():
+        if option_value == 1:
+            starting_artifacts.append(f"Artifact Unlock: {key}")
 
     # add all non-starting artifacts to the pool
     for i in ITEM_TYPES["artifact_unlock"]:

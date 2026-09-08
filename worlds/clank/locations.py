@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from .world import ClankWorld
 
 # Import Data
-from location_data import LOCATION_NAME_TO_ID, LOCATION_TYPES
+from .location_data import LOCATION_NAME_TO_ID, LOCATION_TYPES
 
 
 # Each Location instance must correctly report the "game" it belongs to.
@@ -40,18 +40,19 @@ def create_regular_locations(world: ClankWorld) -> None:
 
     # assign locations to regions
     # seup region lists
-    overall_region_locations = []
-    base_board_locations = []
-    advanced_board_locations = []
+    overall_region_locations = {}
+    base_board_locations = {}
+    advanced_board_locations = {}
 
     # locations setup
     # artifact extraction
-    for i in LOCATION_TYPES["artifact_extraction"]:
-        overall_region_locations.append(i)
+    overall_region_locations.update(
+        get_location_names_with_ids(LOCATION_TYPES["artifact_extraction"])
+    )
 
-    overall_region.add_locations(get_location_names_with_ids(overall_region_locations), ClankLocation)
-    base_board.add_locations(get_location_names_with_ids(base_board_locations), ClankLocation)
-    advanced_board.add_locations(get_location_names_with_ids(advanced_board_locations), ClankLocation)
+    overall_region.add_locations(overall_region_locations, ClankLocation)
+    base_board.add_locations(base_board_locations, ClankLocation)
+    advanced_board.add_locations(advanced_board_locations, ClankLocation)
 
 
 def create_events(world: ClankWorld) -> None:

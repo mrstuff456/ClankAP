@@ -52,6 +52,9 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Artifact Unlock: Chestplate": ItemClassification.progression,
     "Artifact Unlock: Golden Treasure": ItemClassification.progression,
 
+    # TEMP FILLER
+    "filler": ItemClassification.filler,
+
     # Pack Unlocks (Normal)
     "Dungeon Row: Late-game Pack 1": ItemClassification.progression,
     "Dungeon Row: Late-game Pack 2": ItemClassification.progression,

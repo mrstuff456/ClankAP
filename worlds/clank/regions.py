@@ -26,13 +26,6 @@ def create_all_regions(world: ClankWorld) -> None:
     regions = [overall_region, base_board, advanced_board]
 
 
-    # Toggled region
-    if world.options.test_toggle:
-        mummys_curse_front = Region("Mummys Curse Front", world.player, world.multiworld)
-        mummys_curse_back = Region("Mummys Curse Back", world.player, world.multiworld)
-        regions.append(mummys_curse_front)
-        regions.append(mummys_curse_back)
-
 
     # add all the regions into the multiworld
     world.multiworld.regions += regions
@@ -47,15 +40,6 @@ def connect_regions(world: ClankWorld) -> None:
 
     # connect the regions
     overall_region.connect(base_board, "Overall to Base Region")
-    overall_region.connect(base_board, "Overall to Base Region")
-
-     # Toggled Region
-    if world.options.test_toggle:
-        # define regions
-        mummys_curse_front = world.get_region("Mummys Curse Front")
-        mummys_curse_back = world.get_region("Mummys Curse Back")
-        #connect regions
-        overall_region.connect(mummys_curse_front, "Overall to Mummys Curse Front Region")
-        overall_region.connect(mummys_curse_back, "Overall to Mummys Curse Back Region")
+    overall_region.connect(advanced_board, "Overall to Advanced Region")
 
     
